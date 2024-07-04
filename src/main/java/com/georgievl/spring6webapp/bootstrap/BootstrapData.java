@@ -2,8 +2,10 @@ package com.georgievl.spring6webapp.bootstrap;
 
 import com.georgievl.spring6webapp.domain.Author;
 import com.georgievl.spring6webapp.domain.Book;
+import com.georgievl.spring6webapp.domain.Publisher;
 import com.georgievl.spring6webapp.repositories.AuthorRepository;
 import com.georgievl.spring6webapp.repositories.BookRepository;
+import com.georgievl.spring6webapp.repositories.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +14,12 @@ public class BootstrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -48,8 +52,18 @@ public class BootstrapData implements CommandLineRunner {
         authorRepository.save(savedAuthor);
         authorRepository.save(savedAuthor2);
 
+        Publisher publisher = new Publisher();
+        publisher.setPublisherName("The Publisher");
+        publisher.setAddress("123 Johnson Str.");
+        publisher.setCity("Windy Springs");
+        publisher.setState("WY");
+        publisher.setZip("88921");
+
+        Publisher savedPublisher = publisherRepository.save(publisher);
+
         System.out.println("In BootstrapData");
         System.out.println("Author count: " + authorRepository.count());
         System.out.println("Book count: " + bookRepository.count());
+        System.out.println("Publisher count: " + publisherRepository.count());
     }
 }
